@@ -3,6 +3,7 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   Legend,
   Line,
   LineChart,
@@ -16,11 +17,21 @@ import {
 
 import { api } from '../services/api'
 
-function Kpi({ label, value }) {
+const SEVERITY_COLORS = {
+  critical: '#ef4444',
+  high: '#f97316',
+  medium: '#38bdf8',
+  low: '#94a3b8',
+}
+
+const DEFAULT_SEVERITY_COLOR = '#64748b'
+
+function Kpi({ label, value, accent }) {
+  const accentClass = accent ?? 'text-slate-50'
   return (
     <div className="rounded-xl border border-slate-800 bg-slate-900 p-4">
       <p className="text-xs uppercase tracking-wide text-slate-400">{label}</p>
-      <p className="mt-2 text-2xl font-semibold text-slate-50">{value}</p>
+      <p className={`mt-2 text-2xl font-semibold ${accentClass}`}>{value}</p>
     </div>
   )
 }
@@ -89,21 +100,15 @@ export default function DashboardPage() {
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
         <Kpi label="Total Events" value={summary?.total_events ?? '-'} />
         <Kpi label="Total Alerts" value={alerts.length || (summary?.total_alerts ?? '-')} />
-        <Kpi label="Critical Alerts" value={criticalAlerts} />
-        <Kpi label="Active Incidents" value={activeIncidents} />
+        <Kpi label="Critical Alerts" value={criticalAlerts} accent="text-red-300" />
+        <Kpi label="Active Incidents" value={activeIncidents} accent={activeIncidents > 0 ? 'text-orange-300' : undefined} />
         <Kpi label="Detection Coverage" value={`${summary?.detection_coverage ?? 0}%`} />
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <section className="grid gap-4 sm:grid-cols-3">
         <Kpi label="MTTD (min)" value={kpis?.mttd_minutes ?? '-'} />
         <Kpi label="MTTR (min)" value={kpis?.mttr_minutes ?? '-'} />
         <Kpi label="False Positive Rate" value={`${quality?.false_positive_rate ?? 0}%`} />
-      </section>
-
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        <Kpi label="Detection Precision" value={`${quality?.precision ?? 0}%`} />
-        <Kpi label="Jobs Queued" value={jobMetrics?.queued ?? '-'} />
-        <Kpi label="Jobs Completed" value={jobMetrics?.completed ?? '-'} />
       </section>
 
       <section className="grid gap-4 xl:grid-cols-3">
@@ -128,8 +133,13 @@ export default function DashboardPage() {
           <div className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={alertsBySeverity} dataKey="count" nameKey="severity" outerRadius={90} fill="#22d3ee" />
+                <Pie data={alertsBySeverity} dataKey="count" nameKey="severity" outerRadius={90}>
+                  {alertsBySeverity.map((entry) => (
+                    <Cell key={entry.severity} fill={SEVERITY_COLORS[entry.severity] ?? DEFAULT_SEVERITY_COLOR} />
+                  ))}
+                </Pie>
                 <Tooltip />
+                <Legend />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -165,10 +175,18 @@ export default function DashboardPage() {
               </thead>
               <tbody>
                 {alertQueue.map((item) => (
-                  <tr key={item.id} className="border-t border-slate-800">
-                    <td className="py-2 pr-4">{item.title}</td>
-                    <td className="py-2 pr-4">{item.severity}</td>
-                    <td className="py-2 pr-4">{item.status}</td>
+                  <tr key={item.id} className="border-t border-slate-800 hover:bg-slate-800/50">
+                    <td className="py-2 pr-4">
+                      <a href={`/alerts/${item.id}`} className="text-cyan-300 hover:text-cyan-200">
+                        {item.title}
+                      </a>
+                    </td>
+                    <td className="py-2 pr-4">
+                      <span style={{ color: SEVERITY_COLORS[item.severity] ?? DEFAULT_SEVERITY_COLOR }} className="font-medium capitalize">
+                        {item.severity}
+                      </span>
+                    </td>
+                    <td className="py-2 pr-4 capitalize">{item.status?.replace('_', ' ')}</td>
                   </tr>
                 ))}
               </tbody>
@@ -190,8 +208,8 @@ export default function DashboardPage() {
                 {incidentQueue.map((item) => (
                   <tr key={item.id} className="border-t border-slate-800">
                     <td className="py-2 pr-4">{item.title}</td>
-                    <td className="py-2 pr-4">{item.status}</td>
-                    <td className="py-2 pr-4">{item.assigned_analyst_id ?? 'Unassigned'}</td>
+                    <td className="py-2 pr-4 capitalize">{item.status}</td>
+                    <td className="py-2 pr-4">{item.assigned_analyst_id ? `Analyst #${item.assigned_analyst_id}` : 'Unassigned'}</td>
                   </tr>
                 ))}
               </tbody>

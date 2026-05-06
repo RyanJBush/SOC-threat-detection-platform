@@ -37,18 +37,15 @@ export default function AlertDetailPage() {
         return alertRow
       })
       .then(async (alertRow) => {
-        const [eventRow, related] = await Promise.all([
-          api.getEvent(alertRow.event_id),
-          api.getRelatedAlerts(alertRow.correlation_id),
-        ])
-        const [ipEvents, userEvents] = await Promise.all([
-          api.getEventsFiltered({ source_ip: eventRow?.source_ip, page_size: 10 }),
-          api.getEventsFiltered({ username: eventRow?.username, page_size: 10 }),
         const [eventRow, related, ipEvents, userEvents] = await Promise.all([
           api.getEvent(alertRow.event_id),
           api.getRelatedAlerts(alertRow.correlation_id),
-          alertRow?.event_id ? api.getEventsFiltered({ source_ip: alertRow?.evidence?.[0]?.source_ip, page_size: 10 }) : Promise.resolve([]),
-          alertRow?.event_id ? api.getEventsFiltered({ username: alertRow?.evidence?.[0]?.username, page_size: 10 }) : Promise.resolve([]),
+          alertRow?.evidence?.[0]?.source_ip
+            ? api.getEventsFiltered({ source_ip: alertRow.evidence[0].source_ip, page_size: 10 })
+            : Promise.resolve([]),
+          alertRow?.evidence?.[0]?.username
+            ? api.getEventsFiltered({ username: alertRow.evidence[0].username, page_size: 10 })
+            : Promise.resolve([]),
         ])
         setEvent(eventRow)
         setRelatedAlerts(related.filter((item) => item.id !== Number(alertId)))
