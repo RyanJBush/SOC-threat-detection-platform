@@ -1,109 +1,72 @@
-# Vanguard AI
+# 🛡️ SOC Threat Detection Platform
 
-Vanguard AI is an AI-powered SOC threat detection platform that ingests security telemetry, applies rule + anomaly detections, and streamlines analyst triage workflows.
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
 
-## Overview
+An AI-powered Security Operations Center (SOC) platform that ingests security telemetry, applies rule-based and ML anomaly detections, and provides a full analyst triage workflow with incident management, AI-assisted summaries, and audit logging.
 
-This repository is a production-style monorepo with:
-- **Backend**: FastAPI, SQLAlchemy, JWT auth with RBAC
-- **Frontend**: React + Vite + Tailwind CSS + Recharts
-- **Database**: PostgreSQL
-- **Detection/ML**: pandas + scikit-learn with practical SOC detection logic
-- **DevEx**: Docker Compose, Makefile, GitHub Actions CI
+---
 
-## Architecture
+## 🎯 What I Built & Why
 
-```text
-/backend   -> FastAPI API, detection pipeline, persistence, tests
-/frontend  -> SOC dashboard UI and API service clients
-/docs      -> Architecture, ports, and style guide
-```
+SOC analysts deal with enormous alert volumes and tight response SLAs. I built this platform to simulate the core workflow of a real SOC: telemetry ingestion → automated detection → analyst triage → incident management → post-incident review. Design decisions:
 
-Additional architecture notes are in [/docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+- **Rule + anomaly detection pipeline** — combining signature-based detections with ML anomaly scoring mirrors how real SOC tools (like Splunk, Elastic SIEM) operate
+- **AI-assisted triage and summaries** — `GET /api/alerts/{id}/ai-summary` and `/ai-triage` endpoints simulate LLM-augmented analyst assistance, reducing mean time to respond (MTTR)
+- **Full RBAC with 4 roles** — Admin, Analyst, Detection Engineer, and Viewer — reflecting realistic SOC team structures
+- **Scenario seeding** — pre-built attack scenarios make the platform immediately demonstrable without needing real security data
 
-## Core Features (MVP)
+---
 
-- Secure login and identity endpoints (`/api/auth/login`, `/api/auth/me`)
-- Event ingestion and querying (`/api/events`)
-- Automated detections and alert generation on ingestion
-- Alert triage workflow including status updates
-- SOC dashboard KPIs, severity charting, event/alert tables, and filtering
-- Role-based access controls for Admin, Analyst, and Viewer
+## 📷 Features
 
-## API Endpoints
+- **Event ingestion & querying** — stream, replay, and scenario-based security telemetry
+- **Automated alert generation** — detection pipeline triggers alerts on ingest with severity classification
+- **Alert triage workflow** — status updates, analyst assignment, notes, timeline, and feedback
+- **Incident management** — group alerts into incidents, track status, view AI wrap-up summaries
+- **Detection catalog** — browsable registry of all active detection rules
+- **Platform metrics** — KPIs, detection comparison, scenario benchmarks, and detection quality scoring
+- **Feature flags & audit logs** — admin controls for platform configuration and full audit trail
+- **CI/CD** — GitHub Actions pipeline for lint, tests, and build
 
-- `GET /health`
-- `GET /ready`
-- `GET /health/dependencies`
-- `POST /api/auth/login`
-- `GET /api/auth/me`
-- `POST /api/events`
-- `POST /api/events/stream`
-- `POST /api/events/replay`
-- `GET /api/events`
-- `GET /api/events/{id}`
-- `GET /api/events/scenarios`
-- `POST /api/events/scenarios/{scenario_key}/seed`
-- `POST /api/events/simulations/run`
-- `GET /api/alerts`
-- `GET /api/alerts/{id}`
-- `PATCH /api/alerts/{id}/status`
-- `PATCH /api/alerts/{id}/assign`
-- `GET /api/alerts/{id}/notes`
-- `POST /api/alerts/{id}/notes`
-- `GET /api/alerts/{id}/timeline`
-- `POST /api/alerts/{id}/feedback`
-- `GET /api/alerts/{id}/ai-summary`
-- `GET /api/alerts/{id}/ai-triage`
-- `GET /api/detections`
-- `GET /api/detections/catalog`
-- `GET /api/incidents`
-- `POST /api/incidents`
-- `GET /api/incidents/{id}`
-- `PATCH /api/incidents/{id}/status`
-- `POST /api/incidents/{id}/alerts`
-- `GET /api/incidents/{id}/timeline`
-- `GET /api/incidents/{id}/ai-wrapup`
-- `GET /api/jobs`
-- `POST /api/jobs/process-pending`
-- `GET /api/platform/feature-flags`
-- `PATCH /api/platform/feature-flags/{flag_key}`
-- `GET /api/platform/audit-logs`
-- `GET /api/metrics/summary`
-- `GET /api/metrics/kpis`
-- `GET /api/metrics/detection-comparison`
-- `GET /api/metrics/jobs`
-- `GET /api/metrics/detection-quality`
-- `GET /api/metrics/scenario-benchmarks`
+---
 
-## Quick Start
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Backend | FastAPI + SQLAlchemy + PostgreSQL |
+| ML / Detection | pandas + scikit-learn |
+| Auth | JWT with RBAC (4 roles) |
+| Frontend | React + Vite + Tailwind CSS + Recharts |
+| Infra | Docker Compose + GitHub Actions CI |
+
+---
+
+## 🚀 Quick Start
 
 ### Prerequisites
 - Docker + Docker Compose
 - Python 3.12+
 - Node.js 20+
 
-### Run with Docker
-
+### Docker (Recommended)
 ```bash
 docker compose up --build
+# Frontend: http://localhost:5173
+# Backend API docs: http://localhost:8000/docs
 ```
 
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:8000/docs
-- PostgreSQL: localhost:5432
-
 ### Local Development
-
 ```bash
 make install
 cp .env.example .env
-# Optional: set VANGUARD_DATABASE_URL to a PostgreSQL DSN in .env
-```
 
-Run locally in two terminals:
-
-```bash
 # Terminal 1
 cd backend && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
@@ -111,56 +74,48 @@ cd backend && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 cd frontend && npm run dev
 ```
 
-Quality checks:
-
+### Quality Checks
 ```bash
-make lint
-make test
-make build
+make lint && make test && make build
 ```
 
-### Demo Credentials
+---
 
-- `admin / admin123`
-- `analyst / analyst123`
-- `deteng / deteng123`
-- `viewer / viewer123`
+## 🗂️ Repository Structure
 
-### Environment Variables
+```
+backend/    FastAPI API, detection pipeline, ML scoring, incident management, tests
+frontend/   SOC analyst dashboard
+docs/       Architecture, ports, style guide, deployment guide, demo runbook
+```
 
-Use `.env.example` as a starting point.
+---
 
-Backend (`VANGUARD_` prefix):
-- `VANGUARD_ENVIRONMENT`
-- `VANGUARD_DATABASE_URL` (default local: `sqlite:///./vanguard_ai.db`)
-- `VANGUARD_JWT_SECRET`
-- `VANGUARD_JWT_ALGORITHM`
-- `VANGUARD_JWT_EXP_MINUTES`
+## 👤 Demo Credentials
 
-Frontend:
-- `VITE_API_BASE_URL` (default: `http://localhost:8000`)
+| Username | Password | Role |
+|---|---|---|
+| `admin` | `admin123` | Admin |
+| `analyst` | `analyst123` | Analyst |
+| `deteng` | `deteng123` | Detection Engineer |
+| `viewer` | `viewer123` | Viewer |
 
-## Screenshots
+---
 
-- Dashboard (SOC overview):  
-  ![Vanguard AI Dashboard](https://github.com/user-attachments/assets/7695e968-457f-43a1-a8f3-56a7216791dd)
+## 📷 Screenshot
 
-## Roadmap
+![SOC Dashboard](https://github.com/user-attachments/assets/7695e968-457f-43a1-a8f3-56a7216791dd)
 
-- Add streaming ingestion and queue-based processing
-- Expand investigation notes and case management workflows
-- Integrate threat intel enrichment and response automation
-- Add tenant isolation enhancements and audit trails
+---
 
-## Documentation
+## 📝 Key Learnings
 
-- [Architecture](docs/ARCHITECTURE.md)
-- [Ports](docs/PORTS.md)
-- [Style Guide](docs/STYLEGUIDE.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
-- [Demo Runbook](docs/DEMO_RUNBOOK.md)
-- [Contributing](CONTRIBUTING.md)
+- Real SOC workflows are as much about process (triage, escalation, incident grouping) as they are about detection algorithms
+- AI-assisted triage summaries significantly reduce cognitive load on analysts dealing with high alert volumes
+- RBAC design requires thinking about information sensitivity as well as action permissions — a Viewer shouldn’t see the same alert detail as an Analyst
 
-## License
+---
 
-This project is licensed under the MIT License. See [LICENSE](LICENSE).
+## 📄 License
+
+MIT
