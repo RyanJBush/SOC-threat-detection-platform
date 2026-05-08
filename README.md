@@ -1,5 +1,3 @@
-# 🛡️ SOC Threat Detection Platform
-
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
@@ -7,16 +5,19 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
+![CI](https://github.com/RyanJBush/SOC-threat-detection-platform/actions/workflows/ci.yml/badge.svg)
 
-An AI-powered Security Operations Center (SOC) platform that ingests security telemetry, applies rule-based and ML anomaly detections, and provides a full analyst triage workflow with incident management, AI-assisted summaries, and audit logging.
+# 🛡️ SOC Threat Detection Platform
+
+> An AI-powered Security Operations Center platform that ingests security telemetry, applies rule-based and ML anomaly detections, and provides a full analyst triage workflow with incident management, AI-assisted summaries, and audit logging.
 
 ---
 
 ## 🎯 What I Built & Why
 
-SOC analysts deal with enormous alert volumes and tight response SLAs. I built this platform to simulate the core workflow of a real SOC: telemetry ingestion → automated detection → analyst triage → incident management → post-incident review. Design decisions:
+SOC analysts deal with enormous alert volumes and tight response SLAs. I built this platform to simulate the core workflow of a real SOC: telemetry ingestion → automated detection → analyst triage → incident management → post-incident review. Key design decisions:
 
-- **Rule + anomaly detection pipeline** — combining signature-based detections with ML anomaly scoring mirrors how real SOC tools (like Splunk, Elastic SIEM) operate
+- **Rule + anomaly detection pipeline** — combining signature-based detections with ML anomaly scoring mirrors how real SOC tools (Splunk, Elastic SIEM) operate
 - **AI-assisted triage and summaries** — `GET /api/alerts/{id}/ai-summary` and `/ai-triage` endpoints simulate LLM-augmented analyst assistance, reducing mean time to respond (MTTR)
 - **Full RBAC with 4 roles** — Admin, Analyst, Detection Engineer, and Viewer — reflecting realistic SOC team structures
 - **Scenario seeding** — pre-built attack scenarios make the platform immediately demonstrable without needing real security data
@@ -31,7 +32,7 @@ SOC analysts deal with enormous alert volumes and tight response SLAs. I built t
 - **Incident management** — group alerts into incidents, track status, view AI wrap-up summaries
 - **Detection catalog** — browsable registry of all active detection rules
 - **Platform metrics** — KPIs, detection comparison, scenario benchmarks, and detection quality scoring
-- **Feature flags & audit logs** — admin controls for platform configuration and full audit trail
+- **Feature flags & audit logs** — admin controls and full audit trail
 - **CI/CD** — GitHub Actions pipeline for lint, tests, and build
 
 ---
@@ -58,7 +59,7 @@ SOC analysts deal with enormous alert volumes and tight response SLAs. I built t
 ### Docker (Recommended)
 ```bash
 docker compose up --build
-# Frontend: http://localhost:5173
+# Frontend:         http://localhost:5173
 # Backend API docs: http://localhost:8000/docs
 ```
 
@@ -67,10 +68,10 @@ docker compose up --build
 make install
 cp .env.example .env
 
-# Terminal 1
+# Terminal 1 — backend
 cd backend && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
-# Terminal 2
+# Terminal 2 — frontend
 cd frontend && npm run dev
 ```
 
