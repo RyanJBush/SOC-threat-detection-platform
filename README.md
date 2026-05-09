@@ -6,7 +6,11 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 ![CI](https://github.com/RyanJBush/SOC-threat-detection-platform/actions/workflows/ci.yml/badge.svg)
 
-# Sentinel AI
+# Mercury
+
+**SOC Threat Detection & Security Operations Platform**
+
+[**🔗 View Live Preview →**](https://www.perplexity.ai/computer/a/mercury-preview-project-5-of-9-lCA5DWRgQoa4AN6VYPXAUQ)
 
 > A production-style Security Operations Center (SOC) threat detection platform that ingests security logs, scores events with a multi-stage ML pipeline, maps findings to MITRE ATT&CK, and surfaces threats in a live analyst dashboard.
 
@@ -14,7 +18,7 @@
 
 ## 🎯 What I Built & Why
 
-SOC analysts are drowning in alerts. I built Sentinel AI to practice the full threat detection lifecycle — from raw log ingestion to enriched, prioritized threat cases — with a focus on the two biggest pain points: noise reduction and context enrichment.
+SOC analysts are drowning in alerts. I built Mercury to practice the full threat detection lifecycle — from raw log ingestion to enriched, prioritized threat cases — with a focus on the two biggest pain points: noise reduction and context enrichment.
 
 - **Multi-stage detection** — rule-based fast-path for known signatures combined with ML anomaly scoring for novel threats, minimizing both false positives and missed detections
 - **MITRE ATT&CK mapping** — every detected threat is tagged with technique and tactic IDs, giving analysts immediate context for prioritization and escalation
