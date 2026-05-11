@@ -1,7 +1,7 @@
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat&logo=sqlite&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)
 ![CI](https://github.com/RyanJBush/SOC-threat-detection-platform/actions/workflows/ci.yml/badge.svg)
@@ -93,7 +93,8 @@ flowchart TD
 | Backend API | FastAPI + SQLAlchemy + PostgreSQL |
 | ML / Detection | scikit-learn (Isolation Forest) + rule engine |
 | Threat Intel | MITRE ATT&CK framework mapping |
-| Frontend | React + Vite + TypeScript |
+| Frontend | React + Vite (JSX) |
+| Database | SQLite (default for local) / PostgreSQL (Docker Compose) |
 | Infra | Docker Compose + GitHub Actions CI |
 
 ---
@@ -126,8 +127,49 @@ make lint && make test
 ```
 backend/    FastAPI API, detection engine, MITRE mapping, case management, tests
 frontend/   React SOC dashboard
-docs/       Architecture, demo runbook, API reference
+data/       Synthetic security logs (auth, network, endpoint) for demos & tests
+scripts/    CLI tools (e.g. log replay into the ingestion API)
+docs/       Architecture, API reference, MITRE mapping, resume bullets
 ```
+
+---
+
+## 🧪 Demo Workflow
+
+Replay synthetic logs and watch detections fire end-to-end:
+
+```bash
+# Start the stack
+docker compose up --build
+
+# In another shell — log in and grab a token
+TOKEN=$(curl -s -X POST http://localhost:8000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"analyst","password":"analyst"}' | jq -r .access_token)
+
+# Replay the brute-force scenario through the ingestion API
+python scripts/ingest_logs.py data/brute_force_scenario.json --token "$TOKEN"
+
+# Inspect alerts in the dashboard at http://localhost:5173
+# or via the API:
+curl -s -H "Authorization: Bearer $TOKEN" "http://localhost:8000/api/alerts?status=open" | jq
+```
+
+See [`docs/api.md`](docs/api.md) for the full ingestion contract and
+[`docs/MITRE_MAPPING.md`](docs/MITRE_MAPPING.md) for the detection-to-ATT&CK table.
+
+---
+
+## 🚧 Limitations & Future Work
+
+- **Synthetic data only.** Detections are tuned against the seeded scenarios in
+  `data/` and `backend/app/services/seed_scenarios.py`; this is not a deployed SIEM.
+- **No real threat-intel feed.** IOC matches are simulated via event metadata; a
+  MISP / AlienVault OTX integration is planned.
+- **Single-tenant by default.** RBAC and organizations exist in the schema, but
+  multi-tenant isolation has not been hardened.
+- **No streaming ingestion.** Events are pushed over HTTP; a Kafka / Redis Streams
+  consumer is on the roadmap.
 
 ---
 
@@ -136,6 +178,17 @@ docs/       Architecture, demo runbook, API reference
 - Combining rule-based signatures with ML anomaly detection reduces alert fatigue while maintaining coverage for novel threats
 - MITRE ATT&CK mapping transforms raw detections into analyst-readable context — the difference between "anomaly detected" and "lateral movement via T1021"
 - Case management is the bridge between detection and resolution; without it, alerts just pile up
+
+---
+
+## 🎓 For Recruiters
+
+- One-line bullets and interview talking points: [`docs/resume-bullets.md`](docs/resume-bullets.md)
+- Architecture write-up: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
+- Demo runbook: [`docs/DEMO_RUNBOOK.md`](docs/DEMO_RUNBOOK.md)
+
+Topics: `cybersecurity` · `soc` · `siem` · `mitre-attack` · `threat-detection` ·
+`fastapi` · `python` · `security-monitoring` · `portfolio-project`
 
 ---
 
