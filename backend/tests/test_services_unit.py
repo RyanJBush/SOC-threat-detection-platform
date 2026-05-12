@@ -9,7 +9,6 @@ from sqlalchemy.orm import sessionmaker
 
 from app.db import Base
 from app.models import (
-    DetectionJob,
     DetectionJobStatus,
     Event,
     FeatureFlag,

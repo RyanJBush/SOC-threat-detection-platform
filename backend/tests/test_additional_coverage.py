@@ -1,21 +1,19 @@
 from __future__ import annotations
 
+import asyncio
 import logging
 import os
-import asyncio
 from datetime import datetime
 
 import pytest
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
 os.environ["VANGUARD_DATABASE_URL"] = "sqlite:///./test_additional_coverage.db"
 
 from app.db import Base
 from app.dependencies import require_roles
-from app.models import Organization
-from app.models import DetectionJobStatus, Role
+from app.models import DetectionJobStatus, Organization, Role
 from app.observability import RequestContextFilter, request_id_ctx, request_tracing_middleware
 from app.services import job_service
 

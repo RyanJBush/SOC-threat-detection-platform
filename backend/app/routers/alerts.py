@@ -5,7 +5,15 @@ from sqlalchemy.orm import Session
 
 from app.db import get_db
 from app.dependencies import get_current_user, require_roles
-from app.models import Alert, AlertStatus, AlertTimelineEntry, AnalystFeedback, InvestigationNote, Role, User
+from app.models import (
+    Alert,
+    AlertStatus,
+    AlertTimelineEntry,
+    AnalystFeedback,
+    InvestigationNote,
+    Role,
+    User,
+)
 from app.schemas import (
     AiSummaryOut,
     AiTriageOut,

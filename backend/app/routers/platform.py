@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.db import get_db
-from app.dependencies import get_current_user, require_roles
+from app.dependencies import require_roles
 from app.models import AuditLog, FeatureFlag, Role, User
 from app.schemas import AuditLogOut, FeatureFlagOut, FeatureFlagUpdate
 from app.services.audit import write_audit_log
