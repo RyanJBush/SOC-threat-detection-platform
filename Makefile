@@ -1,4 +1,13 @@
-.PHONY: install backend-install frontend-install lint test build dev backend-dev frontend-dev
+.PHONY: help install backend-install frontend-install lint test build dev backend-dev frontend-dev replay-bruteforce generate-synth
+
+help:
+	@echo "Targets:"
+	@echo "  make install            Install backend and frontend dependencies"
+	@echo "  make dev                Run full stack with Docker Compose"
+	@echo "  make backend-dev        Run FastAPI backend locally"
+	@echo "  make frontend-dev       Run frontend locally"
+	@echo "  make replay-bruteforce TOKEN=<token>  Replay synthetic brute-force scenario"
+	@echo "  make generate-synth     Generate synthetic log file"
 
 install: backend-install frontend-install
 
@@ -26,3 +35,9 @@ backend-dev:
 
 frontend-dev:
 	cd frontend && npm run dev
+
+replay-bruteforce:
+	python scripts/ingest_logs.py data/brute_force_scenario.json --token "$(TOKEN)"
+
+generate-synth:
+	python scripts/generate_synthetic_logs.py

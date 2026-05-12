@@ -1,75 +1,82 @@
-# Mercury — SOC Threat Detection Platform
+# Mercury — SOC-Style Threat Detection Portfolio Demo
 
-A portfolio SOC detection demo that simulates alerting workflows from synthetic security logs.
+> **Portfolio demo using synthetic logs — not a production SIEM.**
 
-⚠️ **Portfolio demo.** This is not a production SIEM. It demonstrates SOC-style detection workflows and data pipelines using synthetic data.
+Mercury is a SOC-style security portfolio project built by a **University of Maryland student studying Information Science and Electrical Engineering with a Business minor**. It demonstrates how synthetic security events can move through an ingest → parse → detect → visualize workflow in a full-stack app.
 
-## Recruiter-facing summary
-Mercury is a full-stack cybersecurity portfolio project built to show how I think about detection engineering, triage workflow design, and documentation quality. The platform ingests synthetic log events, applies demo-scale detection logic, and presents alerts/incidents in a SOC-style UI. It is intentionally scoped for learning and interview discussion, not real enterprise monitoring.
+## Summary
+Mercury is designed for interviews, project walkthroughs, and detection-engineering discussion. The backend accepts synthetic events, applies implemented detection rules, and stores alert/incidence data. The frontend provides SOC-inspired alert and incident views for triage practice.
 
-## What this project demonstrates
-- Designing a clear ingest → detect → triage workflow with synthetic data.
-- Building a FastAPI + React application with role-based user flows.
-- Documenting architecture and API behavior for recruiter and interviewer review.
-- Implementing detection metadata, alert lifecycle states, and case management concepts.
+## What it demonstrates
+- Structured event ingestion through API batch endpoints.
+- Parsing and normalization of security-event fields used by detection logic.
+- Rule-based alert generation on synthetic auth, network, and endpoint datasets.
+- Alert lifecycle and incident queue workflows (status changes, assignment, notes).
+- Detection metadata views, including ATT&CK mapping fields for implemented rules.
 
 ## Tech stack
-- **Backend:** FastAPI, SQLAlchemy, PostgreSQL, Alembic, Python
-- **Frontend:** React, TypeScript, Vite
-- **Platform:** Docker Compose
-- **Domain model:** SOC-style alerts/incidents with synthetic event replay
+- **Backend:** FastAPI, SQLAlchemy, PostgreSQL, Python
+- **Frontend:** React, Vite, TypeScript/JavaScript
+- **Containerization:** Docker Compose
+- **Data model:** Synthetic event replay with SOC-style alerts and incidents
 
-## Architecture overview
-- Architecture docs: `docs/ARCHITECTURE.md`
+## Architecture
+- Architecture overview: `docs/ARCHITECTURE.md`
 - API reference: `docs/api.md`
-- Detection mapping reference: `docs/MITRE_MAPPING.md`
+- ATT&CK mapping notes for implemented detections: `docs/MITRE_MAPPING.md`
 
-## How to run locally
+## How to run
+### Option 1: Docker (recommended)
 ```bash
-docker compose up --build
+make dev
 ```
 
-- Frontend: <http://localhost:5173>
-- Backend OpenAPI docs: <http://localhost:8000/docs>
+### Option 2: Local split services
+```bash
+make install
+make backend-dev
+make frontend-dev
+```
 
-Seeded demo users:
+### Demo credentials
 - `admin / admin123`
 - `analyst / analyst123`
 - `deteng / deteng123`
 - `viewer / viewer123`
 
 ## Demo workflow
-1. Start the stack with Docker Compose.
-2. Log in from the UI using a seeded account.
-3. Replay synthetic logs using the ingest script:
+1. Start the stack.
+2. Log in through the app UI.
+3. Create an API token:
    ```bash
    TOKEN=$(curl -s -X POST http://localhost:8000/api/auth/login \
      -H "Content-Type: application/json" \
      -d '{"username":"admin","password":"admin123"}' \
      | python -c "import sys,json;print(json.load(sys.stdin)['access_token'])")
-
-   python scripts/ingest_logs.py data/brute_force_scenario.json --token "$TOKEN"
    ```
-4. Review generated alerts and incident queue behavior in the UI.
+4. Replay an included scenario:
+   ```bash
+   make replay-bruteforce TOKEN="$TOKEN"
+   ```
+5. Optional: generate a fresh synthetic file and replay it:
+   ```bash
+   make generate-synth
+   python scripts/ingest_logs.py data/generated_synthetic_logs.json --token "$TOKEN"
+   ```
+6. Review `/alerts`, `/incidents`, `/detections`, and `/dashboard`.
 
-Synthetic datasets included:
-- `data/brute_force_scenario.json`
-- `data/sample_auth_logs.json`
-- `data/sample_network_logs.json`
-- `data/sample_endpoint_logs.json`
-
-## Screenshots / demo
-- Screenshot index and capture notes: `docs/screenshots/README.md`
-- Portfolio preview page: `docs/preview/index.html`
+## Screenshots
+- Screenshot inventory and recapture checklist: `docs/screenshots/README.md`
+- Portfolio Preview page: `docs/preview/index.html`
 
 ## Limitations and future work
-- Uses synthetic log data generated for demo purposes; no real telemetry connectors.
-- Not hardened for production operations (HA, scaling, SSO, multi-tenant isolation).
-- MITRE ATT&CK mappings are limited to implemented detection catalog entries.
-- Future improvements: additional synthetic scenarios, better tuning workflows, and richer detection visualization inspired by MITRE ATT&CK framework patterns.
+- Synthetic logs only; no live SIEM connector or production telemetry feed.
+- Intended for portfolio review, not production incident response.
+- ATT&CK coverage reflects only rules currently implemented in this repository.
+- Future improvements: additional synthetic scenarios, better rule tuning UX, and richer detection analytics.
 
 ## Resume bullets
-- `docs/resume-bullets.md`
+- See `docs/resume-bullets.md` for concise, project-specific bullet options.
 
 ## License
-This project is licensed under the MIT License. See `LICENSE`.
+MIT (`LICENSE`).

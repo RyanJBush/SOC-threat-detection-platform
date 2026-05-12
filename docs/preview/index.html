@@ -6,95 +6,145 @@
   <title>Mercury | Portfolio Preview</title>
   <style>
     :root {
-      --bg: #08111b;
-      --panel: #0f1b2b;
-      --panel-2: #132437;
-      --text: #d9f3e8;
-      --muted: #92b7ab;
-      --accent: #3ee6a7;
-      --accent-2: #5cc8ff;
-      --border: #1e3349;
+      --bg: #060c14;
+      --bg-alt: #0b1826;
+      --panel: #101f2f;
+      --border: #1e344a;
+      --text: #d8ede5;
+      --muted: #8fb2a7;
+      --green: #3de6a6;
+      --blue: #68c8ff;
+      --warning-bg: #0f2a22;
+      --warning-border: #2a6653;
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(circle at top, #102235 0%, var(--bg) 55%);
       color: var(--text);
-      line-height: 1.5;
+      background: radial-gradient(circle at 15% -10%, #173253 0, var(--bg) 55%);
+      line-height: 1.55;
     }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 1rem; }
-    .hero, .card, .pipeline, .stack { background: rgba(15, 27, 43, 0.9); border: 1px solid var(--border); border-radius: 14px; }
-    .hero { padding: 1.5rem; margin-top: 1rem; }
-    h1 { margin: 0 0 .5rem 0; font-size: clamp(1.8rem, 4vw, 2.8rem); }
-    h2 { font-size: 1.2rem; margin: 0 0 .8rem 0; }
-    .tag { color: var(--muted); margin: 0 0 1rem 0; }
-    .disclaimer {
-      display: inline-block; padding: .45rem .7rem; border-radius: 8px;
-      border: 1px solid #285345; background: #0f2d25; color: #9ef7d1; font-weight: 600;
+    .container { max-width: 1080px; margin: 0 auto; padding: 1rem; }
+    .panel { border: 1px solid var(--border); border-radius: 14px; background: rgba(16, 31, 47, 0.9); }
+    .hero { padding: 1.4rem; margin-top: 0.8rem; }
+    h1 { margin: 0 0 0.3rem 0; font-size: clamp(1.7rem, 4vw, 2.6rem); }
+    h2 { margin: 0 0 0.8rem 0; font-size: 1.15rem; }
+    .subtle { color: var(--muted); }
+    .alert-note {
+      margin: 0.9rem 0;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--warning-border);
+      border-radius: 10px;
+      background: var(--warning-bg);
+      color: #a5f2d2;
+      font-weight: 600;
     }
-    .grid { display: grid; gap: 1rem; margin-top: 1rem; }
-    .features { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-    .card { padding: 1rem; }
-    .pipeline { padding: 1rem; }
-    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; align-items: center; }
-    .step { text-align: center; background: var(--panel-2); border: 1px solid var(--border); padding: .7rem .3rem; border-radius: 10px; font-weight: 600; }
-    .arrow { text-align: center; color: var(--accent-2); font-size: 1.1rem; }
-    .stack { padding: 1rem; }
-    .badges { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .badge {
-      border: 1px solid var(--border); background: #0c1a2b; color: var(--accent);
-      border-radius: 999px; padding: .35rem .65rem; font-size: .9rem;
-    }
-    a { color: var(--accent-2); text-decoration: none; }
+    a { color: var(--blue); text-decoration: none; }
     a:hover { text-decoration: underline; }
-    footer { margin: 1.5rem 0 1rem; color: var(--muted); font-size: .92rem; text-align: center; }
-    @media (max-width: 700px) {
-      .steps { grid-template-columns: 1fr; }
+    .layout { display: grid; gap: 1rem; margin-top: 1rem; }
+    .pipeline, .cards, .stack { padding: 1rem; }
+    .pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.45rem;
+      align-items: center;
+    }
+    .step, .arrow {
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--bg-alt);
+      text-align: center;
+      padding: 0.6rem 0.35rem;
+      font-weight: 600;
+    }
+    .arrow { color: var(--blue); }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+      gap: 0.75rem;
+    }
+    .card { border: 1px solid var(--border); background: var(--bg-alt); border-radius: 10px; padding: 0.85rem; }
+    .card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--green); }
+    .card p { margin: 0; }
+    .badges { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .badge {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.32rem 0.65rem;
+      background: #0d1b2a;
+      color: var(--green);
+      font-size: 0.9rem;
+    }
+    footer { margin: 1.4rem 0 0.8rem; text-align: center; color: var(--muted); font-size: 0.92rem; }
+    @media (max-width: 760px) {
+      .pipeline-grid { grid-template-columns: 1fr; }
       .arrow { transform: rotate(90deg); }
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="hero">
+  <main class="container">
+    <section class="panel hero">
       <h1>Mercury</h1>
-      <p class="tag">SOC Threat Detection Platform — Portfolio Preview</p>
-      <p>A demo-scale cybersecurity project showing how synthetic events flow through ingestion, parsing, detection, and alerting workflows.</p>
-      <p class="disclaimer">Portfolio demo — uses synthetic data</p>
+      <p class="subtle">SOC-style Threat Detection Platform · Portfolio Preview</p>
+      <p>
+        Mercury is a synthetic-log cybersecurity portfolio demo by a University of Maryland student studying
+        Information Science and Electrical Engineering with a Business minor.
+      </p>
+      <p class="alert-note">Synthetic log portfolio demo — not a production SIEM.</p>
       <p><a href="https://github.com/RyanJBush/SOC-threat-detection-platform" target="_blank" rel="noreferrer">View GitHub Repository</a></p>
     </section>
 
-    <section class="grid">
-      <div class="pipeline">
-        <h2>Detection Pipeline Overview</h2>
-        <div class="steps">
-          <div class="step">Ingest</div><div class="arrow">➜</div>
-          <div class="step">Parse</div><div class="arrow">➜</div>
-          <div class="step">Detect</div><div class="arrow">➜</div>
-          <div class="step">Alert</div>
+    <section class="layout">
+      <section class="panel pipeline">
+        <h2>Pipeline (ingest → parse → detect → visualize)</h2>
+        <div class="pipeline-grid">
+          <div class="step">Ingest</div><div class="arrow">→</div>
+          <div class="step">Parse</div><div class="arrow">→</div>
+          <div class="step">Detect</div><div class="arrow">→</div>
+          <div class="step">Visualize</div>
         </div>
-      </div>
+      </section>
 
-      <div class="grid features">
-        <article class="card"><h2>Alert Triage Workflow</h2><p>Tracks open, investigating, resolved, and false-positive states for simulated analyst operations.</p></article>
-        <article class="card"><h2>Detection Catalog</h2><p>Shows implemented rules with severity, confidence, and mapping metadata for transparent behavior.</p></article>
-        <article class="card"><h2>Incident Queue</h2><p>Groups related alerts into case-style records to demonstrate SOC-oriented case handling patterns.</p></article>
-        <article class="card"><h2>Replayable Datasets</h2><p>Uses synthetic auth, network, and endpoint datasets so demos are repeatable for interviews.</p></article>
-      </div>
+      <section class="panel cards">
+        <h2>Implemented portfolio features</h2>
+        <div class="cards-grid">
+          <article class="card">
+            <h3>Log ingestion</h3>
+            <p>Batch event ingestion endpoint with replay support for repeatable synthetic datasets.</p>
+          </article>
+          <article class="card">
+            <h3>Detection rules</h3>
+            <p>Rule metadata and alert generation logic for implemented auth/network/endpoint patterns.</p>
+          </article>
+          <article class="card">
+            <h3>Alert views</h3>
+            <p>SOC-style queue and detail pages with status transitions, notes, and assignments.</p>
+          </article>
+          <article class="card">
+            <h3>Incident workflow</h3>
+            <p>Case-style incident queue that groups related alerts for investigation walkthroughs.</p>
+          </article>
+        </div>
+      </section>
 
-      <div class="stack">
-        <h2>Tech Stack</h2>
+      <section class="panel stack">
+        <h2>Tech stack</h2>
         <div class="badges">
-          <span class="badge">FastAPI</span><span class="badge">Python</span><span class="badge">SQLAlchemy</span>
-          <span class="badge">PostgreSQL</span><span class="badge">React</span><span class="badge">TypeScript</span>
-          <span class="badge">Vite</span><span class="badge">Docker Compose</span>
+          <span class="badge">Python</span>
+          <span class="badge">FastAPI</span>
+          <span class="badge">SQLAlchemy</span>
+          <span class="badge">PostgreSQL</span>
+          <span class="badge">React</span>
+          <span class="badge">Vite</span>
+          <span class="badge">Docker Compose</span>
         </div>
-      </div>
+      </section>
     </section>
 
     <footer>
-      Built by Ryan Bush · <a href="https://github.com/RyanJBush" target="_blank" rel="noreferrer">github.com/RyanJBush</a>
+      Mercury portfolio demo · Synthetic data for testing and walkthroughs
     </footer>
   </main>
 </body>

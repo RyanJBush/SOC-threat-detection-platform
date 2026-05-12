@@ -1,39 +1,41 @@
-# Screenshots — Mercury
+# Screenshots — Mercury Portfolio Demo
 
-This folder contains screenshots from the local portfolio demo using synthetic data only.
+All screenshots in this folder come from the local Mercury portfolio environment and synthetic data replay.
 
-## Captured screenshots
-| File | View | Notes |
+> **Reminder:** Synthetic log portfolio demo — not a production SIEM.
+
+## Current screenshot set
+| File | View | Data context |
 |---|---|---|
-| `01-alerts-feed.png` | `/alerts` | Alert queue after synthetic replay |
-| `02-incident-queue.png` | `/incidents` | Incident list and workflow states |
-| `03-mitre-attack-coverage.png` | `/detections` | Detection catalog mappings for implemented rules |
-| `04-metrics-dashboard.png` | `/dashboard` | Demo-scale summary metrics |
-| `05-api-swagger-docs.png` | `http://localhost:8000/docs` | Backend API documentation |
-| `06-alert-detail.png` | `/alerts/:id` | Alert evidence and action controls |
-| `07-login.png` | `/login` | Seeded demo authentication page |
-| `08-deferred-jobs.png` | `/detections` jobs panel | Deferred processing demo view |
+| `01-alerts-feed.png` | `/alerts` | Alert list after synthetic replay |
+| `02-incident-queue.png` | `/incidents` | Incident queue and workflow states |
+| `03-mitre-attack-coverage.png` | `/detections` | Mapping fields for implemented rules |
+| `04-metrics-dashboard.png` | `/dashboard` | Summary metrics from demo dataset |
+| `05-api-swagger-docs.png` | `http://localhost:8000/docs` | Backend API docs |
+| `06-alert-detail.png` | `/alerts/:id` | Alert evidence and analyst actions |
+| `07-login.png` | `/login` | Seeded user login page |
+| `08-deferred-jobs.png` | `/detections` jobs section | Deferred processing view |
 
-## Screenshot checklist for updates
-- [ ] Re-capture `/alerts` after latest synthetic replay
-- [ ] Re-capture `/incidents` showing assignment and status changes
-- [ ] Re-capture `/detections` mapping panel for currently implemented rules
-- [ ] Re-capture `/dashboard` summary cards
-- [ ] Re-capture API docs page if endpoints change
+## TODO recapture checklist
+- [ ] Re-capture `/alerts` after latest rule changes
+- [ ] Re-capture `/incidents` after assignment/status workflow updates
+- [ ] Re-capture `/detections` if mapping metadata changes
+- [ ] Re-capture `/dashboard` if metric cards change
+- [ ] Re-capture API docs when endpoint contracts change
 
 ## Capture workflow
 ```bash
-docker compose up --build
+make dev
 
 TOKEN=$(curl -s -X POST http://localhost:8000/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin123"}' \
   | python -c "import sys,json;print(json.load(sys.stdin)['access_token'])")
 
-python scripts/ingest_logs.py data/brute_force_scenario.json --token "$TOKEN"
+make replay-bruteforce TOKEN="$TOKEN"
 ```
 
-## Caption rules
-- State that data shown is synthetic or simulated.
-- Avoid language implying real enterprise telemetry or live SIEM ingestion.
-- Use ATT&CK terminology only for implemented mappings.
+## Caption guidance
+- Mention that data is synthetic/simulated.
+- Use “Portfolio Preview,” “UI Preview,” or “Design Preview” (not “Live Preview”).
+- Only reference ATT&CK where a rule mapping is actually implemented.
