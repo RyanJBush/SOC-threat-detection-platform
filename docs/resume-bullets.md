@@ -1,21 +1,17 @@
-# Resume Bullets — Mercury (SOC Threat Detection Platform)
+# Resume Bullets — Mercury
 
 University of Maryland student studying Information Science and Electrical Engineering with a Business minor.
 
 ## Core bullets
-- Built Mercury, a FastAPI and React portfolio demo that replays synthetic security logs and models SOC-style alert triage and case workflows.
-- Implemented Python detection logic for synthetic authentication, network, and endpoint events and surfaced alerts with severity, confidence, and evidence context.
-- Developed alert lifecycle features including assignment, status transitions, analyst notes, and incident grouping to demonstrate investigation workflow design.
-- Mapped implemented detections to ATT&CK technique and tactic IDs through a catalog-backed API used by the frontend detection views.
-- Authored architecture, API, runbook, and screenshot documentation to support recruiter review and technical walkthroughs.
+- Built a SOC-style portfolio demo with FastAPI and React that ingests **synthetic** security logs and surfaces alert triage workflows.
+- Implemented rule-based detections for authentication, network, and endpoint event patterns, including severity/confidence metadata.
+- Designed an event replay pipeline (`scripts/ingest_logs.py`) to batch-ingest JSON events and validate detection behavior across repeatable scenarios.
+- Developed alert and incident views with assignment, status transitions, analyst notes, and case-style grouping for investigation walkthroughs.
+- Documented API behavior, architecture, and screenshot-based demo evidence to support recruiter and interviewer review.
 
-## Detection-engineering angle
-- Designed a detection catalog with explainable rule metadata, including dedup windows and ATT&CK mapping fields for implemented rules.
-- Validated demo behavior by replaying synthetic scenario files and reviewing resulting alert output for rule tuning.
+## Detection engineering focus
+- Authored detection catalog entries with explainable rule metadata and ATT&CK mapping fields for implemented detections.
+- Replayed synthetic scenarios to evaluate output quality, identify false positives, and refine demo-scale detection logic.
 
-## SOC analyst angle
-- Built queue-oriented investigation views that simulate SOC analyst operations without claiming real incident response execution.
-- Recorded analyst feedback states (true positive and false positive) to support detection quality review on synthetic datasets.
-
-## One-line version
-- Created a cybersecurity portfolio demo that simulates SOC detection and case management workflows with synthetic data using FastAPI, React, and Python.
+## Short version
+- Created Mercury, a synthetic-log SOC portfolio demo that shows ingest, rule-based detection, and analyst triage workflows using FastAPI and React.
