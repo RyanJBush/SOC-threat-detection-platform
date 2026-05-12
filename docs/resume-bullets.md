@@ -1,25 +1,21 @@
 # Resume Bullets — Mercury (SOC Threat Detection Platform)
 
-Use these for student/recent-grad cybersecurity resumes. Keep scope honest: **synthetic logs, portfolio SOC workflow simulator, not production SIEM**.
+University of Maryland student studying Information Science and Electrical Engineering with a Business minor.
 
 ## Core bullets
-
-- Built **Mercury**, a FastAPI + React SOC threat detection portfolio platform that replays synthetic security events and models alert triage plus case queue workflows.
-- Implemented detection logic for synthetic auth/network/endpoint events and surfaced generated alerts with severity, confidence, and evidence context.
-- Added SOC-style alert lifecycle operations (status transitions, assignment, notes, feedback) and incident grouping to demonstrate analyst workflow design.
-- Mapped implemented detections to MITRE ATT&CK techniques/tactics in a catalog-backed structure exposed via API and UI.
-- Authored clear architecture, API, runbook, and screenshot documentation to make the project recruiter/interviewer friendly and reproducible.
+- Built Mercury, a FastAPI and React portfolio demo that replays synthetic security logs and models SOC-style alert triage and case workflows.
+- Implemented Python detection logic for synthetic authentication, network, and endpoint events and surfaced alerts with severity, confidence, and evidence context.
+- Developed alert lifecycle features including assignment, status transitions, analyst notes, and incident grouping to demonstrate investigation workflow design.
+- Mapped implemented detections to ATT&CK technique and tactic IDs through a catalog-backed API used by the frontend detection views.
+- Authored architecture, API, runbook, and screenshot documentation to support recruiter review and technical walkthroughs.
 
 ## Detection-engineering angle
-
-- Designed a detection catalog with explicit metadata (severity, confidence, dedup window, ATT&CK mapping where implemented) to keep rule behavior explainable.
-- Demonstrated replay-based validation by ingesting synthetic scenario files and reviewing downstream alert output for tuning.
+- Designed a detection catalog with explainable rule metadata, including dedup windows and ATT&CK mapping fields for implemented rules.
+- Validated demo behavior by replaying synthetic scenario files and reviewing resulting alert output for rule tuning.
 
 ## SOC analyst angle
-
-- Built alert investigation flows that mirror analyst queue operations without implying real enterprise incident response execution.
-- Used analyst feedback states (true/false positive) to support learning-focused detection quality review on demo datasets.
+- Built queue-oriented investigation views that simulate SOC analyst operations without claiming real incident response execution.
+- Recorded analyst feedback states (true positive and false positive) to support detection quality review on synthetic datasets.
 
 ## One-line version
-
-- Created a cybersecurity portfolio project that simulates SOC detection and case management workflows on synthetic logs using FastAPI, React, and ATT&CK mapping for implemented detections.
+- Created a cybersecurity portfolio demo that simulates SOC detection and case management workflows with synthetic data using FastAPI, React, and Python.

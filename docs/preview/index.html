@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mercury | Portfolio Preview</title>
+  <style>
+    :root {
+      --bg: #08111b;
+      --panel: #0f1b2b;
+      --panel-2: #132437;
+      --text: #d9f3e8;
+      --muted: #92b7ab;
+      --accent: #3ee6a7;
+      --accent-2: #5cc8ff;
+      --border: #1e3349;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(circle at top, #102235 0%, var(--bg) 55%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+    .hero, .card, .pipeline, .stack { background: rgba(15, 27, 43, 0.9); border: 1px solid var(--border); border-radius: 14px; }
+    .hero { padding: 1.5rem; margin-top: 1rem; }
+    h1 { margin: 0 0 .5rem 0; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    h2 { font-size: 1.2rem; margin: 0 0 .8rem 0; }
+    .tag { color: var(--muted); margin: 0 0 1rem 0; }
+    .disclaimer {
+      display: inline-block; padding: .45rem .7rem; border-radius: 8px;
+      border: 1px solid #285345; background: #0f2d25; color: #9ef7d1; font-weight: 600;
+    }
+    .grid { display: grid; gap: 1rem; margin-top: 1rem; }
+    .features { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .card { padding: 1rem; }
+    .pipeline { padding: 1rem; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; align-items: center; }
+    .step { text-align: center; background: var(--panel-2); border: 1px solid var(--border); padding: .7rem .3rem; border-radius: 10px; font-weight: 600; }
+    .arrow { text-align: center; color: var(--accent-2); font-size: 1.1rem; }
+    .stack { padding: 1rem; }
+    .badges { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .badge {
+      border: 1px solid var(--border); background: #0c1a2b; color: var(--accent);
+      border-radius: 999px; padding: .35rem .65rem; font-size: .9rem;
+    }
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer { margin: 1.5rem 0 1rem; color: var(--muted); font-size: .92rem; text-align: center; }
+    @media (max-width: 700px) {
+      .steps { grid-template-columns: 1fr; }
+      .arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <h1>Mercury</h1>
+      <p class="tag">SOC Threat Detection Platform — Portfolio Preview</p>
+      <p>A demo-scale cybersecurity project showing how synthetic events flow through ingestion, parsing, detection, and alerting workflows.</p>
+      <p class="disclaimer">Portfolio demo — uses synthetic data</p>
+      <p><a href="https://github.com/RyanJBush/SOC-threat-detection-platform" target="_blank" rel="noreferrer">View GitHub Repository</a></p>
+    </section>
+
+    <section class="grid">
+      <div class="pipeline">
+        <h2>Detection Pipeline Overview</h2>
+        <div class="steps">
+          <div class="step">Ingest</div><div class="arrow">➜</div>
+          <div class="step">Parse</div><div class="arrow">➜</div>
+          <div class="step">Detect</div><div class="arrow">➜</div>
+          <div class="step">Alert</div>
+        </div>
+      </div>
+
+      <div class="grid features">
+        <article class="card"><h2>Alert Triage Workflow</h2><p>Tracks open, investigating, resolved, and false-positive states for simulated analyst operations.</p></article>
+        <article class="card"><h2>Detection Catalog</h2><p>Shows implemented rules with severity, confidence, and mapping metadata for transparent behavior.</p></article>
+        <article class="card"><h2>Incident Queue</h2><p>Groups related alerts into case-style records to demonstrate SOC-oriented case handling patterns.</p></article>
+        <article class="card"><h2>Replayable Datasets</h2><p>Uses synthetic auth, network, and endpoint datasets so demos are repeatable for interviews.</p></article>
+      </div>
+
+      <div class="stack">
+        <h2>Tech Stack</h2>
+        <div class="badges">
+          <span class="badge">FastAPI</span><span class="badge">Python</span><span class="badge">SQLAlchemy</span>
+          <span class="badge">PostgreSQL</span><span class="badge">React</span><span class="badge">TypeScript</span>
+          <span class="badge">Vite</span><span class="badge">Docker Compose</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Built by Ryan Bush · <a href="https://github.com/RyanJBush" target="_blank" rel="noreferrer">github.com/RyanJBush</a>
+    </footer>
+  </main>
+</body>
+</html>

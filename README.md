@@ -1,112 +1,75 @@
 # Mercury — SOC Threat Detection Platform
 
-Mercury is a **cybersecurity student portfolio project** that simulates SOC analyst workflows on **synthetic logs only**. It is designed to demonstrate detection engineering, alert triage, and case handling fundamentals in a clean full-stack implementation.
+A portfolio SOC detection demo that simulates alerting workflows from synthetic security logs.
 
-> Mercury is **not** a production SIEM, does **not** ingest real enterprise telemetry, and does **not** represent real incident response operations.
+⚠️ **Portfolio demo.** This is not a production SIEM. It demonstrates SOC-style detection workflows and data pipelines using synthetic data.
 
-## What this project is
+## Recruiter-facing summary
+Mercury is a full-stack cybersecurity portfolio project built to show how I think about detection engineering, triage workflow design, and documentation quality. The platform ingests synthetic log events, applies demo-scale detection logic, and presents alerts/incidents in a SOC-style UI. It is intentionally scoped for learning and interview discussion, not real enterprise monitoring.
 
-- A FastAPI + React platform for replaying sample security events.
-- A sandbox for SOC-style detection-to-alert-to-case workflows.
-- A portfolio artifact focused on architecture clarity and security domain fluency.
+## What this project demonstrates
+- Designing a clear ingest → detect → triage workflow with synthetic data.
+- Building a FastAPI + React application with role-based user flows.
+- Documenting architecture and API behavior for recruiter and interviewer review.
+- Implementing detection metadata, alert lifecycle states, and case management concepts.
 
-## What this project is not
+## Tech stack
+- **Backend:** FastAPI, SQLAlchemy, PostgreSQL, Alembic, Python
+- **Frontend:** React, TypeScript, Vite
+- **Platform:** Docker Compose
+- **Domain model:** SOC-style alerts/incidents with synthetic event replay
 
-- Not a production SOC tool.
-- Not connected to real EDR/SIEM pipelines.
-- Not validating detections against live enterprise environments.
+## Architecture overview
+- Architecture docs: `docs/ARCHITECTURE.md`
+- API reference: `docs/api.md`
+- Detection mapping reference: `docs/MITRE_MAPPING.md`
 
-## Quick start (demo)
-
+## How to run locally
 ```bash
 docker compose up --build
 ```
 
 - Frontend: <http://localhost:5173>
-- Backend API docs: <http://localhost:8000/docs>
+- Backend OpenAPI docs: <http://localhost:8000/docs>
 
-Demo users (seeded):
-
+Seeded demo users:
 - `admin / admin123`
 - `analyst / analyst123`
 - `deteng / deteng123`
 - `viewer / viewer123`
 
-## Replay sample logs
+## Demo workflow
+1. Start the stack with Docker Compose.
+2. Log in from the UI using a seeded account.
+3. Replay synthetic logs using the ingest script:
+   ```bash
+   TOKEN=$(curl -s -X POST http://localhost:8000/api/auth/login \
+     -H "Content-Type: application/json" \
+     -d '{"username":"admin","password":"admin123"}' \
+     | python -c "import sys,json;print(json.load(sys.stdin)['access_token'])")
 
-Use the included CLI to replay synthetic scenarios:
+   python scripts/ingest_logs.py data/brute_force_scenario.json --token "$TOKEN"
+   ```
+4. Review generated alerts and incident queue behavior in the UI.
 
-```bash
-TOKEN=$(curl -s -X POST http://localhost:8000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"username":"admin","password":"admin123"}' \
-  | python -c "import sys,json;print(json.load(sys.stdin)['access_token'])")
-
-python scripts/ingest_logs.py data/brute_force_scenario.json --token "$TOKEN"
-```
-
-Other synthetic datasets:
-
+Synthetic datasets included:
+- `data/brute_force_scenario.json`
 - `data/sample_auth_logs.json`
 - `data/sample_network_logs.json`
 - `data/sample_endpoint_logs.json`
 
-## View generated alerts
+## Screenshots / demo
+- Screenshot index and capture notes: `docs/screenshots/README.md`
+- Portfolio preview page: `docs/preview/index.html`
 
-- UI: open `/alerts` after replay.
-- API:
+## Limitations and future work
+- Uses synthetic log data generated for demo purposes; no real telemetry connectors.
+- Not hardened for production operations (HA, scaling, SSO, multi-tenant isolation).
+- MITRE ATT&CK mappings are limited to implemented detection catalog entries.
+- Future improvements: additional synthetic scenarios, better tuning workflows, and richer detection visualization inspired by MITRE ATT&CK framework patterns.
 
-```bash
-curl -s -H "Authorization: Bearer $TOKEN" \
-  "http://localhost:8000/api/alerts?status=open" | python -m json.tool
-```
+## Resume bullets
+- `docs/resume-bullets.md`
 
-Alerts are generated from implemented detection logic in the backend service and surfaced with severity, confidence, evidence links, and workflow status.
-
-## Case queue / alert workflow
-
-Mercury models a **SOC-style analyst workflow**:
-
-1. ingest synthetic events
-2. create detections and alerts
-3. triage alert status (`open`, `investigating`, `resolved`, `false_positive`)
-4. add analyst notes and assignments
-5. group related alerts into incidents (case queue)
-
-This is workflow simulation for learning/portfolio use, not real incident response execution.
-
-## MITRE ATT&CK mapping
-
-Mercury uses ATT&CK mapping language **only where implemented in the detection catalog**.
-
-- Mapping source: `backend/app/services/detection_catalog.py`
-- Reference table: `docs/MITRE_MAPPING.md`
-- API surface: `GET /api/detections/catalog`
-
-No ATT&CK coverage is implied beyond those implemented detections.
-
-## Documentation map
-
-- Architecture: `docs/ARCHITECTURE.md`
-- API docs: `docs/api.md`
-- Demo runbook: `docs/DEMO_RUNBOOK.md`
-- Resume bullets: `docs/resume-bullets.md`
-- Screenshots guide: `docs/screenshots/README.md`
-
-## Limitations
-
-- Synthetic logs only; no real telemetry connectors.
-- No production hardening expectations (HA, scaling, SSO, tenancy isolation).
-- Detection quality reflects seeded/demo data, not enterprise baselines.
-- AI helper endpoints are demo scaffolding, not analyst-grade copilots.
-
-## Future work
-
-- Add additional synthetic attack scenarios and detection tuning exercises.
-- Improve ATT&CK visualization (technique/tactic matrix from implemented rules).
-- Add stream-processing simulation path (queue-backed demo mode).
-- Expand analyst workflow metrics from feedback loops.
-
-## Portfolio framing
-
-Mercury is intentionally positioned as a **strong student cybersecurity portfolio project**: honest scope, reproducible demos, and clearly implemented SOC fundamentals.
+## License
+This project is licensed under the MIT License. See `LICENSE`.
