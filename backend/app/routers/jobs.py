@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.db import get_db
-from app.dependencies import get_current_user, require_roles
+from app.dependencies import require_roles
 from app.models import DetectionJob, Role, User
 from app.schemas import DetectionJobOut
 from app.services.job_service import process_pending_jobs

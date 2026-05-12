@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from time import sleep
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -15,9 +15,9 @@ from app.schemas import (
     EventListResponse,
     EventOut,
     PaginationMeta,
-    RunSimulationResponse,
     ReplayEventsRequest,
     ReplayEventsResponse,
+    RunSimulationResponse,
     SeedScenarioIngestResult,
     SeedScenarioOut,
     StreamEventIngestRequest,
@@ -26,12 +26,12 @@ from app.services.detection_service import (
     default_occurred_at,
 )
 from app.services.job_service import enqueue_detection_job, process_detection_job
+from app.services.pagination import paginate_query
 from app.services.seed_scenarios import (
     SCENARIO_DEFINITIONS,
     build_scenario_events,
     list_seed_scenarios,
 )
-from app.services.pagination import paginate_query
 
 router = APIRouter(prefix="/api/events", tags=["events"])
 
@@ -216,8 +216,6 @@ def replay_events(
     job_ids: list[int] = []
     replayed_events = 0
     for src in source_events:
-        seconds_offset = max(0, (src.occurred_at - payload.from_timestamp).total_seconds())
-        replay_seconds = seconds_offset / payload.speed_multiplier
         clone = Event(
             organization_id=current_user.organization_id,
             source=src.source,

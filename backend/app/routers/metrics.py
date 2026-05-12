@@ -16,8 +16,8 @@ from app.models import (
     User,
 )
 from app.schemas import (
-    DetectionComparisonOut,
     CorrelationHotspotOut,
+    DetectionComparisonOut,
     DetectionMethodMetrics,
     DetectionQualityOut,
     JobMetricsOut,

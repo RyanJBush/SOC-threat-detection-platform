@@ -31,10 +31,7 @@ os.environ["VANGUARD_DATABASE_URL"] = "sqlite:///./test_extended.db"
 from app.db import Base, get_db
 from app.main import app
 from app.models import (
-    Alert,
-    AlertStatus,
     AuditLog,
-    Detection,
     Event,
     FeatureFlag,
     Organization,
@@ -802,8 +799,8 @@ class TestPersistDetectionsAndAlerts:
     """Unit tests for persist_detections_and_alerts()."""
 
     def _signal(self, name: str = "brute_force_login_rule", correlation_entity: str = "10.0.0.1"):
-        from app.services.detection_service import _signal_from_catalog
         from app.services.detection_catalog import DETECTION_CATALOG
+        from app.services.detection_service import _signal_from_catalog
 
         defn = DETECTION_CATALOG[name]
         return _signal_from_catalog(defn, confidence=0.82, explanation="test", correlation_entity=correlation_entity)
@@ -946,7 +943,6 @@ class TestCorrelationHotspotsEndpoint:
 class TestAlertFilterAndSort:
     def _seed_alerts(self, client: TestClient, headers: dict) -> list[int]:
         """Create one high-severity and one low-severity alert, return their IDs."""
-        alert_ids: list[int] = []
         for sev, ip in [("high", "10.2.0.1"), ("low", "10.2.0.2")]:
             payload = {
                 "source": "identity_provider",
