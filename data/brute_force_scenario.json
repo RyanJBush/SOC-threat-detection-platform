@@ -1,0 +1,10 @@
+[
+  {"source": "okta", "source_ip": "203.0.113.45", "username": "j.doe", "event_type": "auth.login.failure", "severity": "low", "status": "new", "message": "Failed login", "metadata": {}, "occurred_at": "2026-05-10T03:14:01Z"},
+  {"source": "okta", "source_ip": "203.0.113.45", "username": "j.doe", "event_type": "auth.login.failure", "severity": "low", "status": "new", "message": "Failed login", "metadata": {}, "occurred_at": "2026-05-10T03:14:05Z"},
+  {"source": "okta", "source_ip": "203.0.113.45", "username": "j.doe", "event_type": "auth.login.failure", "severity": "low", "status": "new", "message": "Failed login", "metadata": {}, "occurred_at": "2026-05-10T03:14:09Z"},
+  {"source": "okta", "source_ip": "203.0.113.45", "username": "j.doe", "event_type": "auth.login.failure", "severity": "low", "status": "new", "message": "Failed login", "metadata": {}, "occurred_at": "2026-05-10T03:14:13Z"},
+  {"source": "okta", "source_ip": "203.0.113.45", "username": "j.doe", "event_type": "auth.login.failure", "severity": "low", "status": "new", "message": "Failed login", "metadata": {}, "occurred_at": "2026-05-10T03:14:17Z"},
+  {"source": "okta", "source_ip": "203.0.113.45", "username": "j.doe", "event_type": "auth.login.failure", "severity": "low", "status": "new", "message": "Failed login", "metadata": {}, "occurred_at": "2026-05-10T03:14:21Z"},
+  {"source": "okta", "source_ip": "203.0.113.45", "username": "j.doe", "event_type": "auth.login.failure", "severity": "low", "status": "new", "message": "Failed login", "metadata": {}, "occurred_at": "2026-05-10T03:14:25Z"},
+  {"source": "okta", "source_ip": "203.0.113.45", "username": "j.doe", "event_type": "auth.login.success", "severity": "medium", "status": "new", "message": "Successful login after burst of failures", "metadata": {}, "occurred_at": "2026-05-10T03:14:29Z"}
+]
