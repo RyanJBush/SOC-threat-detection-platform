@@ -87,6 +87,10 @@ class AlertOut(BaseModel):
     explanation: str
     evidence: list[dict]
     mitre_techniques: list[str]
+    mitre_technique_id: str | None = None
+    mitre_tactic: str | None = None
+    mitre_technique_name: str | None = None
+    mitre_url: str | None = None
     correlation_id: str
     incident_id: int | None
     assigned_analyst_id: int | None

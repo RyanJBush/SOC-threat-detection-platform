@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from app.models import Alert, AlertStatus, Detection, Event
 from app.services.detection_catalog import DETECTION_CATALOG, DetectionDefinition
 from app.services.feature_flags import is_detection_enabled
+from app.services.mitre_enrichment import MitreEnrichmentService
 
 
 class DetectionSignal:
@@ -401,6 +402,7 @@ def persist_detections_and_alerts(db: Session, event: Event, signals: list[Detec
             detections.append(detection)
             continue
 
+        enrichment = MitreEnrichmentService.enrich(event_type=event.event_type, message=event.message)
         alert = Alert(
             organization_id=event.organization_id,
             event_id=event.id,
@@ -411,6 +413,10 @@ def persist_detections_and_alerts(db: Session, event: Event, signals: list[Detec
             explanation=signal.explanation,
             evidence=signal.evidence,
             mitre_techniques=signal.mitre_techniques,
+            mitre_technique_id=(enrichment.technique_id if enrichment else None),
+            mitre_tactic=(enrichment.tactic if enrichment else None),
+            mitre_technique_name=(enrichment.name if enrichment else None),
+            mitre_url=(enrichment.url if enrichment else None),
             recommended_next_steps=signal.recommendation,
             correlation_id=signal.correlation_id,
             dedup_count=1,

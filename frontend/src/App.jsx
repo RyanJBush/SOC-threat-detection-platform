@@ -8,6 +8,7 @@ import DashboardPage from './pages/DashboardPage'
 import DetectionsPage from './pages/DetectionsPage'
 import EventsPage from './pages/EventsPage'
 import IncidentsPage from './pages/IncidentsPage'
+import HuntingPage from './pages/HuntingPage'
 import LoginPage from './pages/LoginPage'
 import SettingsPage from './pages/SettingsPage'
 import { api, authStore } from './services/api'
@@ -116,6 +117,14 @@ export default function App() {
           element={
             <ProtectedRoute user={user}>
               <DetectionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/hunting"
+          element={
+            <ProtectedRoute user={user}>
+              <HuntingPage />
             </ProtectedRoute>
           }
         />

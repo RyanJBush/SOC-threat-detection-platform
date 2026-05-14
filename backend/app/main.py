@@ -12,6 +12,7 @@ from app.routers.auth import router as auth_router
 from app.routers.detections import router as detections_router
 from app.routers.events import router as events_router
 from app.routers.health import router as health_router
+from app.routers.hunting import router as hunting_router
 from app.routers.incidents import router as incidents_router
 from app.routers.jobs import router as jobs_router
 from app.routers.metrics import router as metrics_router
@@ -39,6 +40,7 @@ app.include_router(incidents_router)
 app.include_router(jobs_router)
 app.include_router(platform_router)
 app.include_router(metrics_router)
+app.include_router(hunting_router)
 
 
 @app.on_event("startup")

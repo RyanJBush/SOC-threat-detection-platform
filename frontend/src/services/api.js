@@ -131,6 +131,11 @@ export const api = {
     request('/api/jobs/process-pending', {
       method: 'POST',
     }),
+  runHuntingQuery: (payload) =>
+    request('/api/hunting/query', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
 }
 
 export const authStore = {
