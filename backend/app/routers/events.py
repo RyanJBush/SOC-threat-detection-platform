@@ -25,6 +25,7 @@ from app.schemas import (
 from app.services.detection_service import (
     default_occurred_at,
 )
+from app.services.elasticsearch_service import elasticsearch_service
 from app.services.job_service import enqueue_detection_job, process_detection_job
 from app.services.pagination import paginate_query
 from app.services.seed_scenarios import (
@@ -71,6 +72,7 @@ def create_event(
     )
     db.add(event)
     db.flush()
+    elasticsearch_service.index_event(event)
 
     job = enqueue_detection_job(
         db,

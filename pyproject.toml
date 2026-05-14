@@ -1,0 +1,15 @@
+[tool.pytest.ini_options]
+testpaths = ["backend/tests"]
+
+[tool.flake8]
+max-line-length = 100
+exclude = [".git", "__pycache__", ".venv"]
+
+[project]
+name = "mercury-soc-platform"
+version = "1.0.0"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["flake8", "pytest", "httpx", "ruff"]

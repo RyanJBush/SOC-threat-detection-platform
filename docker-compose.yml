@@ -5,46 +5,39 @@ services:
       POSTGRES_DB: vanguard_ai
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d vanguard_ai"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
+    ports: ["5432:5432"]
+    volumes: ["postgres_data:/var/lib/postgresql/data"]
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports: ["9200:9200"]
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.14.3
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports: ["5601:5601"]
+    depends_on: [elasticsearch]
 
   backend:
-    build:
-      context: ./backend
+    build: { context: ./backend }
     environment:
       VANGUARD_DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/vanguard_ai
       VANGUARD_JWT_SECRET: development-secret
-    ports:
-      - "8000:8000"
-    depends_on:
-      db:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=3)"]
-      interval: 15s
-      timeout: 5s
-      retries: 10
+      VANGUARD_ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports: ["8000:8000"]
+    depends_on: [db, elasticsearch]
 
   frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "5173:5173"
+    build: { context: ./frontend }
     command: npm run dev -- --host 0.0.0.0
-    depends_on:
-      - backend
-    healthcheck:
-      test: ["CMD-SHELL", "wget -q -O /dev/null http://localhost:5173 || exit 1"]
-      interval: 20s
-      timeout: 5s
-      retries: 10
+    environment:
+      VITE_API_BASE_URL: http://localhost:8000
+    ports: ["5173:5173"]
+    depends_on: [backend]
 
 volumes:
   postgres_data:
